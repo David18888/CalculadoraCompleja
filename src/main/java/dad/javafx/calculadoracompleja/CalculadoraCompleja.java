@@ -36,24 +36,14 @@ private Separator separator= new Separator();
 private TextField resultRealText;
 private TextField resultImagText;
 
-//model
-
-private StringProperty operacion= new SimpleStringProperty();
-
-private DoubleProperty operandoReal1= new SimpleDoubleProperty();
-private DoubleProperty operandoImaginario1= new SimpleDoubleProperty();
-
-
-private DoubleProperty operandoReal2= new SimpleDoubleProperty();
-private DoubleProperty operandoImaginario2= new SimpleDoubleProperty();
-
-
-private DoubleProperty resultadoReal= new SimpleDoubleProperty();
-private DoubleProperty resultadoImaginario= new SimpleDoubleProperty();
 
 
 	
+private Complejo op1= new Complejo();
+private Complejo op2= new Complejo();
+private Complejo res= new Complejo();
 
+private StringProperty operacion= new SimpleStringProperty();
 	
 	
 	
@@ -86,6 +76,25 @@ private DoubleProperty resultadoImaginario= new SimpleDoubleProperty();
 		resultImagText.setDisable(true);
 		
 		
+		//BINDEOS
+		opReal1Text.textProperty().bindBidirectional(op1.realProperty(), new NumberStringConverter());
+		opImg1Text.textProperty().bindBidirectional(op1.imaginarioProperty(),new NumberStringConverter());
+		
+		
+		opReal2Text.textProperty().bindBidirectional(op2.realProperty(), new NumberStringConverter());
+		opImg2Text.textProperty().bindBidirectional(op2.imaginarioProperty(), new NumberStringConverter());
+
+		resultRealText.textProperty().bindBidirectional(res.realProperty(), new NumberStringConverter());
+		resultImagText.textProperty().bindBidirectional(res.imaginarioProperty(), new NumberStringConverter());
+		
+		
+		
+		operacion.bind(operadorCombo.getSelectionModel().selectedItemProperty());
+		operacion.addListener((o,ov,nv)->onOperacion(nv));
+		
+		
+		
+		
 		HBox op1Box= new HBox(5,opReal1Text,new Label("+"),opImg1Text, new Label("i"));
 		op1Box.setAlignment(Pos.CENTER);
 		HBox op2Box= new HBox(5,opReal2Text,new Label("+"),opImg2Text, new Label("i"));
@@ -115,6 +124,10 @@ private DoubleProperty resultadoImaginario= new SimpleDoubleProperty();
 		
 	}
 	
+private void onOperacion(String nv) {
+		
+	}
+
 public static void main(String[] args) {
 	launch(args);
 }
