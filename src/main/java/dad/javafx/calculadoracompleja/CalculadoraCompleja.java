@@ -1,8 +1,6 @@
 package dad.javafx.calculadoracompleja;
 
 import javafx.application.Application;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.geometry.Pos;
@@ -18,7 +16,6 @@ import javafx.util.converter.NumberStringConverter;
 
 public class CalculadoraCompleja extends Application {
 
-	//view 
 private ComboBox <String> operadorCombo;	
 	
 private TextField opReal1Text ;
@@ -48,11 +45,10 @@ private StringProperty operacion= new SimpleStringProperty();
 	
 	
 	public void start(Stage primaryStage) throws Exception {
-		//Vbox
+		
 		operadorCombo= new ComboBox <String>();
 		operadorCombo.getItems().addAll("+","-","*","/");
 		
-		//Hbox
 		opReal1Text= new TextField();
 		opReal1Text.setPrefColumnCount(4);
 		
@@ -125,7 +121,29 @@ private StringProperty operacion= new SimpleStringProperty();
 	}
 	
 private void onOperacion(String nv) {
+		switch (nv) {
 		
+		case "+":
+			res.realProperty().bind(op1.realProperty().add(op2.realProperty()));
+			res.imaginarioProperty().bind(op1.imaginarioProperty().add(op2.imaginarioProperty()));
+			break;
+			
+		case "-":
+			res.realProperty().bind(op1.realProperty().subtract(op2.realProperty()));
+			res.imaginarioProperty().bind(op1.imaginarioProperty().subtract(op2.imaginarioProperty()));
+			break;
+			
+		case "*":
+			res.realProperty().bind((op1.realProperty().multiply(op2.realProperty())).subtract((op1.imaginarioProperty().multiply(op2.imaginarioProperty()))));
+		    res.imaginarioProperty().bind((op1.realProperty().multiply(op2.imaginarioProperty())).add((op1.imaginarioProperty().multiply(op2.realProperty()))));
+
+			break;
+		
+		case "/":
+		  res.realProperty().bind((op1.realProperty().multiply(op2.realProperty())).add(op1.realProperty().multiply(op2.imaginarioProperty())).divide((op2.realProperty().multiply(op2.realProperty())).add(op2.imaginarioProperty().multiply(op2.imaginarioProperty()))));
+			res.imaginarioProperty().bind((op1.imaginarioProperty().multiply(op2.imaginarioProperty())).subtract(op1.realProperty().multiply(op2.imaginarioProperty())).divide((op2.imaginarioProperty().multiply(op2.imaginarioProperty())).add(op2.imaginarioProperty().multiply(op2.imaginarioProperty()))));
+			break;
+		}
 	}
 
 public static void main(String[] args) {
